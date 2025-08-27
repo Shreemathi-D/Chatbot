@@ -82,61 +82,25 @@ class VoiceAssistant {
         });
     }
 
-    async handleLogin() {
+    handleLogin() {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
-        // Hardcoded admin credentials
+        // Local validation of admin credentials
         if (username === 'admin' && password === 'admin') {
-            try {
-                // In a real application, you would call your login API
-                // For demo purposes, we're simulating a successful login
-                const response = await fetch('https://inventory-va.onrender.com/api/v1/login/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        username: username,
-                        password: password
-                    }),
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    this.authToken = data.token || data.key;
-                    this.username = username;
-                    
-                    // Store token and username
-                    localStorage.setItem('authToken', this.authToken);
-                    localStorage.setItem('username', this.username);
-                    
-                    this.hideLoginModal();
-                    this.enableMicrophone();
-                    this.showUserInfo();
-                    this.loadChatHistory();
-                    
-                    this.addMessage(`Welcome back, ${username}! How can I help you today?`, 'assistant');
-                } else {
-                    this.loginError.textContent = 'Invalid admin credentials';
-                    this.loginError.style.display = 'block';
-                }
-            } catch (error) {
-                console.error('Login error:', error);
-                // For demo purposes, we'll use a mock token if API fails
-                this.authToken = '9027c985dd6009271f2142a71102a3459c5a60a5';
-                this.username = 'admin';
-                
-                localStorage.setItem('authToken', this.authToken);
-                localStorage.setItem('username', this.username);
-                
-                this.hideLoginModal();
-                this.enableMicrophone();
-                this.showUserInfo();
-                this.loadChatHistory();
-                
-                this.addMessage(`Welcome back, admin! How can I help you today?`, 'assistant');
-            }
+            this.authToken = '9027c985dd6009271f2142a71102a3459c5a60a5'; // Mock token
+            this.username = username;
+            
+            // Store token and username
+            localStorage.setItem('authToken', this.authToken);
+            localStorage.setItem('username', this.username);
+            
+            this.hideLoginModal();
+            this.enableMicrophone();
+            this.showUserInfo();
+            this.loadChatHistory();
+            
+            this.addMessage(`Welcome back, ${username}! How can I help you today?`, 'assistant');
         } else {
             this.loginError.textContent = 'Invalid admin credentials';
             this.loginError.style.display = 'block';
@@ -150,18 +114,6 @@ class VoiceAssistant {
     }
 
     async handleLogout() {
-        try {
-            await fetch('https://inventory-va.onrender.com/api/v1/logout/', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Token ${this.authToken}`,
-                    'Content-Type': 'application/json',
-                }
-            });
-        } catch (error) {
-            console.error('Logout error:', error);
-        }
-        
         // Clear local storage
         localStorage.removeItem('authToken');
         localStorage.removeItem('username');
@@ -184,21 +136,16 @@ class VoiceAssistant {
     }
 
     async verifyToken() {
-        try {
-            // For demo purposes, we'll just check if we have a token
-            if (!this.authToken) {
-                this.showLoginModal();
-                return;
-            }
-            
-            // If we have a token, enable the microphone and show user info
-            this.enableMicrophone();
-            this.showUserInfo();
-            this.loadChatHistory();
-        } catch (error) {
-            console.error('Token verification error:', error);
+        // For demo purposes, we'll just check if we have a token
+        if (!this.authToken) {
             this.showLoginModal();
+            return;
         }
+        
+        // If we have a token, enable the microphone and show user info
+        this.enableMicrophone();
+        this.showUserInfo();
+        this.loadChatHistory();
     }
 
     initializeSpeechRecognition() {
@@ -667,8 +614,8 @@ Using Groq APIs:
 ✅ Web Speech API as fallback
 
 Authentication:
-✅ Admin authentication (username: admin, password: admin)
-✅ Token-based authentication with Django backend
+✅ Local admin authentication (username: admin, password: admin)
+✅ Token-based authentication
 ✅ Automatic token storage
 
 Chat Features:
