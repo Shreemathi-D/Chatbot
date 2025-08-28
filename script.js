@@ -29,7 +29,7 @@ async function loadConfig() {
     // Placeholder: Replace with fetch('config.json')
     config = await Promise.resolve({
       cogSvcRegion: "eastus2",
-      cogSvcSubKey: "Cz4BbPc7lZ9XlsBO0qUVgqLsvmoSa1Nq4dgoxmAurG7lFgVubdyTJQQJ99BHACHYHv6XJ3w3AAAAACOGowZU",
+      // cogSvcSubKey: "Cz4BbPc7lZ9XlsBO0qUVgqLsvmoSa1Nq4dgoxmAurG7lFgVubdyTJQQJ99BHACHYHv6XJ3w3AAAAACOGowZU",
       talkingAvatarCharacter: "lisa",
       talkingAvatarStyle: "casual-sitting",
       ttsVoice: "en-US-JennyNeural",
@@ -703,3 +703,4 @@ window.microphone = () => {
  
 window.stopSpeaking = stopSpeaking;
  
+
